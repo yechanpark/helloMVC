@@ -14,7 +14,6 @@ public class Home extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	public Home() {
-		super();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -24,13 +23,12 @@ public class Home extends HttpServlet {
 		String page = null;
 
 		if (action.equals("login"))
-			page = "/view/loginform.jsp";
-		else if (action.equals("help"))
-			page = "/view/help.jsp";
+			page = "/view/loginForm.jsp";
+		else if (action.equals("register"))
+			page = "/view/registerForm.jsp";
 		else
 			page = "/view/error.jsp";
 
-		// 디스패쳐 객체를 얻어와서
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 		dispatcher.forward(request, response);
 	}

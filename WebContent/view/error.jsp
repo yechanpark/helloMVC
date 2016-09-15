@@ -4,13 +4,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title> Error Page </title>
 </head>
 <body>
 	This is an error page.
-	<p>
-		<a href="/helloMVC/index.jsp"> try again </a>
-	</p>
-
+	<p><a href="/helloMVC/index.jsp"> try again </a></p>
 </body>
 </html>
