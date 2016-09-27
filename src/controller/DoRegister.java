@@ -1,8 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,11 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import model.Customer;
 import service.CustomerService;
 
-@WebServlet("/doLogin")
-public class DoLogin extends HttpServlet {
+@WebServlet("/doRegister")
+public class DoRegister extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public DoLogin() {
+	public DoRegister() {
 		super();
 	}
 
@@ -27,26 +25,26 @@ public class DoLogin extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String id = request.getParameter("id");
 		String password = request.getParameter("password");
+		String name = request.getParameter("name");
+		String gender = request.getParameter("gender");
+		String email = request.getParameter("email");
 
-		// Perform business logic. Return a bean as a result.
 		CustomerService service = (CustomerService) CustomerService.getInstance();
 
 		String page;
 
-		// customer가 유효한지 확인
-		if (service.findCustomer(id) == null) {
-			page = "/view/loginFail.jsp";
-		} else {
-			Customer customer = service.login(id, password);
-			if (customer != null)
-				page = "/view/loginSuccess.jsp";
-			else
-				page = "/view/loginFailNotMatch.jsp";
+		if (service.findCustomer(id) == null) { // 아이디가 없으면 가입
+			Customer customer = new Customer(id, password, name, gender, email);
+			service.addCustomer(customer);
 			request.setAttribute("customer", customer);
+			page = "/view/registerSuccess.jsp";
+		} else { // 아이디가 있으면 실패
+			request.setAttribute("id", id); // 해당 ${id} 는 이미 존재합니다
+			page = "/view/registerFail.jsp";
 		}
 		
-		request.setAttribute("id", id);
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 		dispatcher.forward(request, response);
 	}
+
 }
